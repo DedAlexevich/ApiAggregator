@@ -12,7 +12,6 @@ import ru.dedalexeich.data.DataRecord;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.io.Reader;
-import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -26,7 +25,6 @@ public class CsvDataStorage implements IDataStorage {
 
     private static final List<String> HEADERS = List.of("source", "fetchedAt", "parameters", "items");
     private static final CSVFormat READ_FORMAT = CSVFormat.RFC4180.builder().setHeader().setSkipHeaderRecord(true).get();
-
     private final ObjectMapper objectMapper;
 
     public CsvDataStorage(ObjectMapper objectMapper) {
@@ -43,7 +41,7 @@ public class CsvDataStorage implements IDataStorage {
         }
 
         CSVFormat format = CSVFormat.RFC4180.builder().setHeader(HEADERS.toArray(String[]::new)).setSkipHeaderRecord(append).get();
-        StringWriter buffer = new StringWriter();
+        StringBuffer buffer = new StringBuffer();
         try (CSVPrinter printer = new CSVPrinter(buffer, format)) {
             for (DataRecord record : records) {
                 printer.printRecord(record.source(), record.fetchedAt().toString(),
@@ -51,7 +49,7 @@ public class CsvDataStorage implements IDataStorage {
                         objectMapper.writeValueAsString(record.items()));
             }
         }
-        StringBuilder sb = new StringBuilder(buffer.getBuffer());
+        StringBuilder sb = new StringBuilder(buffer);
         if (append && sb.isEmpty()) {
             return;
         }

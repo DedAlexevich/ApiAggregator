@@ -24,9 +24,7 @@ public class JsonDataStorage implements IDataStorage {
     public void write(Path path, List<DataRecord> records, WriteMode mode) throws IOException {
         List<DataRecord> result = new ArrayList<>();
 
-        if (mode == WriteMode.APPEND
-                && Files.exists(path)
-                && Files.size(path) > 0) {
+        if (mode == WriteMode.APPEND && Files.exists(path) && Files.size(path) > 0) {
             result.addAll(read(path));
         }
 

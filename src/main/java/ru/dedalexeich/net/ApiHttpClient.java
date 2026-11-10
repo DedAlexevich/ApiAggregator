@@ -28,9 +28,7 @@ public class ApiHttpClient {
         HttpResponse<String> response;
 
         try {
-            HttpRequest.Builder builder = HttpRequest.newBuilder(uri)
-                    .timeout(Duration.ofSeconds(20))
-                    .GET();
+            HttpRequest.Builder builder = HttpRequest.newBuilder(uri).timeout(Duration.ofSeconds(20)).GET();
             headers.forEach(builder::header);
             response = client.send(builder.build(), HttpResponse.BodyHandlers.ofString());
         } catch (InterruptedException e) {

@@ -11,10 +11,7 @@ public final class QueryUriBuilder {
     private QueryUriBuilder() {
     }
 
-    public static URI build(
-            String endpoint,
-            Map<String, String> parameters
-    ) {
+    public static URI build(String endpoint, Map<String, String> parameters) {
         String query = parameters.entrySet().stream()
                 .map(entry -> encode(entry.getKey()) + "=" + encode(entry.getValue()))
                 .collect(Collectors.joining("&"));
