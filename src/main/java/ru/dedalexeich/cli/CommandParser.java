@@ -100,7 +100,7 @@ public class CommandParser {
         if (value.isBlank()) {
             throw new IllegalArgumentException("Empty value for parameter: " + name);
         }
-        Map<String, String> values = parameters.computeIfAbsent(source, key -> new HashMap<>());
+        Map<String, String> values = parameters.computeIfAbsent(source, _ -> new HashMap<>());
         if (values.putIfAbsent(name, value) != null) {
             throw new IllegalArgumentException("Repeated parameter: " + source + "." + name);
         }
