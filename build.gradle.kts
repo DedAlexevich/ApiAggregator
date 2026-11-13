@@ -10,6 +10,13 @@ repositories {
     mavenCentral()
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+
 application {
     mainClass.set("ru.dedalexeich.Main")
 }
@@ -25,9 +32,6 @@ dependencies {
     implementation("org.slf4j:slf4j-api:2.0.20")
 }
 
-tasks.withType<JavaExec>().configureEach {
-    standardInput = System.`in`
-}
 
 tasks.test {
     useJUnitPlatform()
