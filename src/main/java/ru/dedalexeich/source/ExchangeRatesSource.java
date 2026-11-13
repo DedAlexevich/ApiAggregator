@@ -31,7 +31,7 @@ public class ExchangeRatesSource implements IDataSource{
 
     @Override
     public String getName() {
-        return "Exchange rates";
+        return "exchange";
     }
 
     @Override
