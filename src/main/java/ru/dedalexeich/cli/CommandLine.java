@@ -102,7 +102,7 @@ public class CommandLine {
                 [-format json|csv] [-file path] [-source "stored source name"] read
                 help
 
-                Stored source names: "Open-Meteo marine", "auto", "Exchange rates".
+                Stored source names: "meteo", "auto", "exchange".
                 """);
     }
 }
