@@ -82,10 +82,10 @@ EXCHANGE_RATES_API_KEY=your_exchange_rates_key
 ./gradlew run --args='-format csv -file data.csv read'
 
 # Только результаты морского прогноза
-./gradlew run --args='-format csv -file data.csv -source "Open-Meteo marine" read'
+./gradlew run --args='-format csv -file data.csv -source meteo read'
 ```
 
-Сохранённые имена для `-source` — `Open-Meteo marine`, `auto` и `Exchange rates`. Фильтр сравнивает имя целиком с учётом регистра. Для чтения сохранённых данных ключи API не нужны.
+Сохранённые имена для `-source` — `meteo`, `auto` и `exchange`. Фильтр сравнивает имя целиком с учётом регистра. Для чтения сохранённых данных ключи API не нужны.
 
 ## Формат данных
 
