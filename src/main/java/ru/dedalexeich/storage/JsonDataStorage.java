@@ -31,6 +31,10 @@ public class JsonDataStorage implements IDataStorage {
         result.addAll(records);
 
         String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(result);
+        Path parent = path.toAbsolutePath().getParent();
+        if (parent != null) {
+            Files.createDirectories(parent);
+        }
         Files.writeString(path, json);
     }
 
