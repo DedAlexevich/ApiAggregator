@@ -58,7 +58,7 @@ public class Main {
         aggregator.configure("auto", Map.of("vehicle.make", "Toyota", "limit", "5"));
         aggregator.configure("exchange", Map.of("symbols", "USD,GBP,JPY"));
 
-        return new CommandLine(aggregator, new CommandParser(), System.out);
+        return new CommandLine(aggregator, aggregator, aggregator, new CommandParser(), System.out);
     }
 
     private static Aggregator getAggregator(HttpClient client, ObjectMapper mapper) {

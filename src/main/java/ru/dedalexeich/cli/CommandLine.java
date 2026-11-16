@@ -2,8 +2,10 @@ package ru.dedalexeich.cli;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.dedalexeich.aggregator.Aggregator;
 import ru.dedalexeich.aggregator.FetchResult;
+import ru.dedalexeich.aggregator.IDataFetcher;
+import ru.dedalexeich.aggregator.IDataQuery;
+import ru.dedalexeich.aggregator.ISourceConfigurator;
 import ru.dedalexeich.data.DataItem;
 import ru.dedalexeich.data.DataRecord;
 
@@ -17,12 +19,16 @@ public class CommandLine {
 
     private static final Logger log = LoggerFactory.getLogger(CommandLine.class);
 
-    private final Aggregator aggregator;
+    private final IDataQuery dataQuery;
+    private final IDataFetcher dataFetcher;
+    private final ISourceConfigurator sourceConfigurator;
     private final CommandParser parser;
     private final PrintStream out;
 
-    public CommandLine(Aggregator aggregator, CommandParser parser, PrintStream out) {
-        this.aggregator = aggregator;
+    public CommandLine(IDataQuery dataQuery, IDataFetcher dataFetcher, ISourceConfigurator sourceConfigurator, CommandParser parser, PrintStream out) {
+        this.dataFetcher = dataFetcher;
+        this.dataQuery = dataQuery;
+        this.sourceConfigurator = sourceConfigurator;
         this.parser = parser;
         this.out = out;
     }
@@ -34,7 +40,7 @@ public class CommandLine {
             return switch (command.action()) {
                 case "run" -> fetch(command);
                 case "read" -> {
-                    printRecords(aggregator.read(command.format(), command.file(), command.sourceFilter()));
+                    printRecords(dataQuery.read(command.format(), command.file(), command.sourceFilter()));
                     yield 0;
                 }
                 case "help" -> {
@@ -65,8 +71,8 @@ public class CommandLine {
     }
 
     private int fetch(CommandParser.Command command) throws IOException, InterruptedException {
-        command.parameters().forEach(aggregator::configure);
-        FetchResult result = aggregator.fetch(command.sources(), command.format(), command.file(), command.mode());
+        command.parameters().forEach(sourceConfigurator::configure);
+        FetchResult result = dataFetcher.fetch(command.sources(), command.format(), command.file(), command.mode());
 
         if (result.savedRecords() == 0) {
             out.println("No data saved: all selected sources failed.");
