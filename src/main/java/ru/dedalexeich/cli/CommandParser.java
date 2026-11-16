@@ -56,7 +56,18 @@ public class CommandParser {
         }
 
         List<String> sources = action.equals("run") ? parseSources(options.get("-sources")) : List.of();
-        parameters.keySet().retainAll(sources);
+        if (action.equals("run")) {
+            for (String option : List.of("-format", "-mode")) {
+                if (!options.containsKey(option)) {
+                    throw new IllegalArgumentException("Missing required option: " + option);
+                }
+            }
+        }
+        for (String source : parameters.keySet()) {
+            if (!sources.contains(source)) {
+                throw new IllegalArgumentException("Configuration provided for an unselected source: " + source);
+            }
+        }
         String format = options.getOrDefault("-format", "json").toLowerCase();
         if (!Set.of("json", "csv").contains(format)) {
             throw new IllegalArgumentException("Format must be json or csv");
