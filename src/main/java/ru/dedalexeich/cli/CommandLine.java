@@ -97,7 +97,7 @@ public class CommandLine {
 
     private void printHelp() {
         out.println("""
-                -sources meteo,auto,exchange [-format json|csv] [-mode overwrite|append]
+                -sources meteo,auto,exchange -format json|csv -mode overwrite|append
                     [-file path] [-config source.parameter=value ...] run
                 [-format json|csv] [-file path] [-source "stored source name"] read
                 help
