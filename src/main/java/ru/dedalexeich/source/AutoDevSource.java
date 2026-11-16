@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.dedalexeich.data.DataItem;
 import ru.dedalexeich.data.DataRecord;
-import ru.dedalexeich.net.ApiHttpClient;
+import ru.dedalexeich.net.IHttpGetter;
 import ru.dedalexeich.net.QueryUriBuilder;
 
 import java.io.IOException;
@@ -19,11 +19,11 @@ public class AutoDevSource implements IDataSource {
 
     private static final String URL = "https://api.auto.dev/listings";
 
-    private final ApiHttpClient httpClient;
+    private final IHttpGetter httpClient;
     private final ObjectMapper objectMapper;
     private final String apiKey;
 
-    public AutoDevSource(ApiHttpClient httpClient, ObjectMapper objectMapper, String apiKey) {
+    public AutoDevSource(IHttpGetter httpClient, ObjectMapper objectMapper, String apiKey) {
         if (apiKey == null || apiKey.isBlank()) {
             throw new IllegalArgumentException("Auto.dev API key is missing");
         }

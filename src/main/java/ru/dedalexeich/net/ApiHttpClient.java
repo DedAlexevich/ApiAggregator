@@ -12,7 +12,7 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class ApiHttpClient {
+public class ApiHttpClient implements IHttpGetter {
 
     private static final Logger log = LoggerFactory.getLogger(ApiHttpClient.class);
 
@@ -22,6 +22,7 @@ public class ApiHttpClient {
         this.client = client;
     }
 
+    @Override
     public String get(URI uri, Map<String, String> headers) throws IOException, InterruptedException {
         String endpoint = uri.getHost() + uri.getRawPath();
         long started = System.nanoTime();

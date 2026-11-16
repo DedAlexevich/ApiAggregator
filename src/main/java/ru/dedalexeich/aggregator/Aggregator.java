@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public class Aggregator {
+public class Aggregator implements IDataFetcher, IDataQuery, ISourceConfigurator {
 
     private static final Logger log = LoggerFactory.getLogger(Aggregator.class);
 
@@ -29,6 +29,7 @@ public class Aggregator {
         this.configurations = new HashMap<>();
     }
 
+    @Override
     public void configure(String source, Map<String, String> parameters) {
         if (!sources.containsKey(source)) {
             throw new IllegalArgumentException("Unknown source: " + source);
@@ -38,6 +39,7 @@ public class Aggregator {
         configurations.put(source, Map.copyOf(updated));
     }
 
+    @Override
     public FetchResult fetch(List<String> names, String format, Path path, WriteMode mode) throws IOException, InterruptedException {
         validateSources(names);
         IDataStorage storage = getStorage(format);
@@ -81,6 +83,7 @@ public class Aggregator {
         return new FetchResult(records.size(), failed);
     }
 
+    @Override
     public List<DataRecord> read(String format, Path path, String source) throws IOException {
         try {
             List<DataRecord> records = getStorage(format).read(path);

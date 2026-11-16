@@ -4,23 +4,26 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.dedalexeich.data.DataItem;
 import ru.dedalexeich.data.DataRecord;
-import ru.dedalexeich.net.ApiHttpClient;
+import ru.dedalexeich.net.IHttpGetter;
 import ru.dedalexeich.net.QueryUriBuilder;
 
 import java.io.IOException;
 import java.net.URI;
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class ExchangeRatesSource implements IDataSource{
+public class ExchangeRatesSource implements IDataSource {
 
     private static final String URL = "https://api.exchangeratesapi.io/v1/latest";
 
-    private final ApiHttpClient httpClient;
+    private final IHttpGetter httpClient;
     private final ObjectMapper objectMapper;
     private final String apiKey;
 
-    public ExchangeRatesSource(ApiHttpClient httpClient, ObjectMapper objectMapper, String apiKey) {
+    public ExchangeRatesSource(IHttpGetter httpClient, ObjectMapper objectMapper, String apiKey) {
         if (apiKey == null || apiKey.isBlank()) {
             throw new IllegalArgumentException("ExchangeRates API key is missing");
         }

@@ -101,7 +101,7 @@ public class CommandLine {
                     [-file path] [-config source.parameter=value ...] run
                 [-format json|csv] [-file path] [-source "stored source name"] read
                 help
-
+                
                 Stored source names: "meteo", "auto", "exchange".
                 """);
     }

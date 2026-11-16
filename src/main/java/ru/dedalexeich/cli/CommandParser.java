@@ -7,10 +7,6 @@ import java.util.*;
 
 public class CommandParser {
 
-    public record Command(String action, List<String> sources, String format, WriteMode mode,
-                          Path file, String sourceFilter, Map<String, Map<String, String>> parameters) {
-    }
-
     public Command parse(String[] args) {
         if (args.length == 0) {
             return new Command("help", List.of(), "json", WriteMode.OVERWRITE,
@@ -115,5 +111,9 @@ public class CommandParser {
         if (values.putIfAbsent(name, value) != null) {
             throw new IllegalArgumentException("Repeated parameter: " + source + "." + name);
         }
+    }
+
+    public record Command(String action, List<String> sources, String format, WriteMode mode,
+                          Path file, String sourceFilter, Map<String, Map<String, String>> parameters) {
     }
 }

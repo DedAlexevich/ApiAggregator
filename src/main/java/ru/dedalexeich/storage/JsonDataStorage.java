@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JsonDataStorage implements IDataStorage {
-    private static final TypeReference<List<DataRecord>> RECORDS_TYPE = new TypeReference<>() {};
+    private static final TypeReference<List<DataRecord>> RECORDS_TYPE = new TypeReference<>() {
+    };
 
     private final ObjectMapper objectMapper;
 

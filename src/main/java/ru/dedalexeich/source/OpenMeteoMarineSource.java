@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.dedalexeich.data.DataItem;
 import ru.dedalexeich.data.DataRecord;
-import ru.dedalexeich.net.ApiHttpClient;
+import ru.dedalexeich.net.IHttpGetter;
 import ru.dedalexeich.net.QueryUriBuilder;
 
 import java.io.IOException;
@@ -19,10 +19,10 @@ public class OpenMeteoMarineSource implements IDataSource {
 
     private static final String URL = "https://marine-api.open-meteo.com/v1/marine";
 
-    private final ApiHttpClient httpClient;
+    private final IHttpGetter httpClient;
     private final ObjectMapper objectMapper;
 
-    public OpenMeteoMarineSource(ApiHttpClient httpClient, ObjectMapper objectMapper) {
+    public OpenMeteoMarineSource(IHttpGetter httpClient, ObjectMapper objectMapper) {
         this.httpClient = httpClient;
         this.objectMapper = objectMapper;
     }

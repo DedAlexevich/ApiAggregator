@@ -85,9 +85,11 @@ public class CsvDataStorage implements IDataStorage {
                     throw new IOException("Incorrect CSV");
                 }
                 Map<String, String> parameters = objectMapper.readValue(row.get("parameters"),
-                        new TypeReference<Map<String, String>>() {});
+                        new TypeReference<>() {
+                        });
                 List<DataItem> items = objectMapper.readValue(row.get("items"),
-                        new TypeReference<List<DataItem>>() {});
+                        new TypeReference<>() {
+                        });
                 if (parameters == null || items == null) {
                     throw new IOException("CSV contains null parameters or items");
                 }
