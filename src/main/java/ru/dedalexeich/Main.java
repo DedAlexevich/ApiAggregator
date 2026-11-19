@@ -59,14 +59,6 @@ public class Main {
         );
 
         Aggregator aggregator = new Aggregator(sources, storages);
-        aggregator.configure("meteo", Map.of(
-                "latitude", "43.3",
-                "longitude", "5.4",
-                "hourly", "wave_height,wave_period,wave_direction,sea_surface_temperature",
-                "forecast_days", "1"
-        ));
-        aggregator.configure("auto", Map.of("vehicle.make", "Toyota", "limit", "5"));
-        aggregator.configure("exchange", Map.of("symbols", "USD,GBP,JPY"));
 
         return new CommandLine(aggregator, aggregator, aggregator, new CommandParser(), sources.keySet(), System.out);
     }
