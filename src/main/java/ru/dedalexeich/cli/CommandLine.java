@@ -14,6 +14,7 @@ import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class CommandLine {
 
@@ -23,13 +24,17 @@ public class CommandLine {
     private final IDataFetcher dataFetcher;
     private final ISourceConfigurator sourceConfigurator;
     private final CommandParser parser;
+    private final List<String> sourceNames;
     private final PrintStream out;
 
-    public CommandLine(IDataQuery dataQuery, IDataFetcher dataFetcher, ISourceConfigurator sourceConfigurator, CommandParser parser, PrintStream out) {
+    public CommandLine(IDataQuery dataQuery, IDataFetcher dataFetcher,
+                       ISourceConfigurator sourceConfigurator, CommandParser parser,
+                       Set<String> sourceNames, PrintStream out) {
         this.dataFetcher = dataFetcher;
         this.dataQuery = dataQuery;
         this.sourceConfigurator = sourceConfigurator;
         this.parser = parser;
+        this.sourceNames = sourceNames.stream().sorted().toList();
         this.out = out;
     }
 
@@ -102,13 +107,13 @@ public class CommandLine {
     }
 
     private void printHelp() {
-        out.println("""
-                -sources meteo,auto,exchange -format json|csv -mode overwrite|append
+        out.printf("""
+                -sources <source[,source...]> -format json|csv -mode overwrite|append
                     [-file path] [-config source.parameter=value ...] run
                 [-format json|csv] [-file path] [-source "stored source name"] read
                 help
                 
-                Stored source names: "meteo", "auto", "exchange".
-                """);
+                Available sources: %s
+                %n""", String.join(", ", sourceNames));
     }
 }

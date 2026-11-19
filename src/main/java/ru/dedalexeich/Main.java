@@ -32,8 +32,8 @@ public class Main {
     static void main(String[] args) {
         int exitCode;
         log.info("application.started argumentCount={}", args.length);
-        try {
-            exitCode = createCommandLine().run(args);
+        try (HttpClient client = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(10)).build()) {
+            exitCode = createCommandLine(client).run(args);
         } catch (RuntimeException e) {
             log.error("application.failed reason={}", e.getMessage());
             exitCode = 1;
@@ -42,26 +42,10 @@ public class Main {
         System.exit(exitCode);
     }
 
-    private static CommandLine createCommandLine() {
+    private static CommandLine createCommandLine(HttpClient client) {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-
-        HttpClient client = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(10)).build();
-        Aggregator aggregator = getAggregator(client, mapper);
-        aggregator.configure("meteo", Map.of(
-                "latitude", "43.3",
-                "longitude", "5.4",
-                "hourly", "wave_height,wave_period,wave_direction,sea_surface_temperature",
-                "forecast_days", "1"
-        ));
-        aggregator.configure("auto", Map.of("vehicle.make", "Toyota", "limit", "5"));
-        aggregator.configure("exchange", Map.of("symbols", "USD,GBP,JPY"));
-
-        return new CommandLine(aggregator, aggregator, aggregator, new CommandParser(), System.out);
-    }
-
-    private static Aggregator getAggregator(HttpClient client, ObjectMapper mapper) {
         ApiHttpClient http = new ApiHttpClient(client);
 
         Map<String, Supplier<IDataSource>> sources = Map.of(
@@ -74,7 +58,17 @@ public class Main {
                 "csv", new CsvDataStorage(mapper)
         );
 
-        return new Aggregator(sources, storages);
+        Aggregator aggregator = new Aggregator(sources, storages);
+        aggregator.configure("meteo", Map.of(
+                "latitude", "43.3",
+                "longitude", "5.4",
+                "hourly", "wave_height,wave_period,wave_direction,sea_surface_temperature",
+                "forecast_days", "1"
+        ));
+        aggregator.configure("auto", Map.of("vehicle.make", "Toyota", "limit", "5"));
+        aggregator.configure("exchange", Map.of("symbols", "USD,GBP,JPY"));
+
+        return new CommandLine(aggregator, aggregator, aggregator, new CommandParser(), sources.keySet(), System.out);
     }
 
     private static String readKey(String name) {
