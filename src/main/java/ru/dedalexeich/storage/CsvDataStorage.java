@@ -80,7 +80,7 @@ public class CsvDataStorage implements IDataStorage {
         List<DataRecord> records = new ArrayList<>();
         try (Reader reader = Files.newBufferedReader(path); CSVParser parser = READ_FORMAT.parse(reader)) {
             validateHeaders(parser);
-            for (CSVRecord row : parser.getRecords()) {
+            for (CSVRecord row : parser) {
                 if (!row.isConsistent()) {
                     throw new IOException("Incorrect CSV");
                 }
