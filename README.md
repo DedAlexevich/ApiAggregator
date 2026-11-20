@@ -44,6 +44,31 @@ EXCHANGE_RATES_API_KEY=your_exchange_rates_key
 
 Приложение читает ключ только для выбранного источника. Auto.dev получает его в заголовке `Authorization: Bearer …`, ExchangeRatesAPI — в query-параметре `access_key`. Передавайте ключи через `.env`. Параметры из `-config` выводятся в журнал. Файл `.env` указан в `.gitignore`.
 
+### Query-параметры источников
+
+При запуске передайте параметры через `-config источник.параметр=значение`. Префикс до первой точки выбирает источник. Например, из `auto.vehicle.make=Toyota` приложение формирует query-параметр `vehicle.make=Toyota`. Имена и значения кодируются для URL автоматически.
+
+| Источник | Query-параметр | Что задаёт | Пример значения |
+| --- | --- | --- | --- |
+| `meteo` | `latitude` | Широта точки прогноза в десятичных градусах | `43.3` |
+| `meteo` | `longitude` | Долгота точки прогноза в десятичных градусах | `5.4` |
+| `meteo` | `hourly` | Почасовые показатели через запятую. Адаптер извлекает высоту волн (`wave_height`), период (`wave_period`), направление (`wave_direction`) и температуру поверхности моря (`sea_surface_temperature`) | `wave_height,wave_period` |
+| `meteo` | `forecast_days` | Число дней прогноза | `2` |
+| `auto` | `vehicle.make` | Марка автомобиля для поиска объявлений | `Toyota` |
+| `auto` | `limit` | Максимальное число объявлений в ответе | `5` |
+| `exchange` | `symbols` | Коды валют, для которых нужны курсы, через запятую | `USD,GBP,JPY` |
+| `exchange` | `access_key` | Ключ доступа. Адаптер подставляет его из `.env` и отклоняет передачу через `-config` | Из `EXCHANGE_RATES_API_KEY` |
+
+Примеры аргументов приложения для IntelliJ IDEA:
+
+```text
+-sources meteo -format json -mode overwrite -config meteo.latitude=43.3 meteo.longitude=5.4 meteo.hourly=wave_height,wave_period meteo.forecast_days=2 run
+-sources auto -format json -mode overwrite -config auto.vehicle.make=Toyota auto.limit=5 run
+-sources exchange -format json -mode overwrite -config exchange.symbols=USD,GBP,JPY run
+```
+
+Таблица описывает параметры, используемые в проекте. Через `-config` можно передать и другие query-параметры из документации соответствующего API. Для `meteo` выбирайте хотя бы один из четырёх перечисленных показателей `hourly`: адаптер ожидает его в почасовом прогнозе.
+
 ## Команды и параметры
 
 Последний аргумент задаёт действие. `run` опрашивает API, `read` читает файл, `help` выводит справку. Запуск без аргументов также показывает справку.
