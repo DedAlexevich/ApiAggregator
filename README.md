@@ -29,11 +29,11 @@ java -version
 
 ## Источники данных
 
-| Имя в `-sources` | API и адрес запроса                                                                                                        | Какие данные извлекаются                                        | Параметры по умолчанию                                                                                                       |
-|------------------|----------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
-| `meteo`          | [Open-Meteo Marine](https://open-meteo.com/en/docs/marine-weather-api), `GET https://marine-api.open-meteo.com/v1/marine`  | Координаты и почасовой прогноз из `hourly`                      | `latitude=43.3`, `longitude=5.4`, `forecast_days=1`, `hourly=wave_height,wave_period,wave_direction,sea_surface_temperature` |
-| `auto`           | [Auto.dev Vehicle Listings](https://docs.auto.dev/v2/reference/searchVehicleListings), `GET https://api.auto.dev/listings` | Объявления из массива `data`, включая VIN, марку, модель и цену | `vehicle.make=Toyota`, `limit=5`                                                                                             |
-| `exchange`       | [ExchangeRatesAPI](https://exchangeratesapi.io/documentation/), `GET https://api.exchangeratesapi.io/v1/latest`            | Валютные пары, дата и курсы из объекта `rates`                  | `symbols=USD,GBP,JPY`                                                                                                        |
+| Имя в `-sources` | API и адрес запроса                                                                                                        | Какие данные извлекаются                                        |
+|------------------|----------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
+| `meteo`          | [Open-Meteo Marine](https://open-meteo.com/en/docs/marine-weather-api), `GET https://marine-api.open-meteo.com/v1/marine`  | Координаты и почасовой прогноз из `hourly`                      |
+| `auto`           | [Auto.dev Vehicle Listings](https://docs.auto.dev/v2/reference/searchVehicleListings), `GET https://api.auto.dev/listings` | Объявления из массива `data`, включая VIN, марку, модель и цену |
+| `exchange`       | [ExchangeRatesAPI](https://exchangeratesapi.io/documentation/), `GET https://api.exchangeratesapi.io/v1/latest`            | Валютные пары, дата и курсы из объекта `rates`                  |
 
 Для Auto.dev и ExchangeRatesAPI создайте файл `.env` в корне проекта. Запишите по одному ключу на строку в формате `имя=значение`, без кавычек:
 
