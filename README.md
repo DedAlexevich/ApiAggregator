@@ -57,7 +57,6 @@ EXCHANGE_RATES_API_KEY=your_exchange_rates_key
 | `auto` | `vehicle.make` | Марка автомобиля для поиска объявлений | `Toyota` |
 | `auto` | `limit` | Максимальное число объявлений в ответе | `5` |
 | `exchange` | `symbols` | Коды валют, для которых нужны курсы, через запятую | `USD,GBP,JPY` |
-| `exchange` | `access_key` | Ключ доступа. Адаптер подставляет его из `.env` и отклоняет передачу через `-config` | Из `EXCHANGE_RATES_API_KEY` |
 
 Примеры аргументов приложения для IntelliJ IDEA:
 
