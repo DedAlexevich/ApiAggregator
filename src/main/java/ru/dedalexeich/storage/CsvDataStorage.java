@@ -24,7 +24,7 @@ import java.util.Map;
 public class CsvDataStorage implements IDataStorage {
 
     private static final List<String> HEADERS = List.of("source", "fetchedAt", "parameters", "items");
-    private static final CSVFormat READ_FORMAT = CSVFormat.RFC4180.builder().setHeader().setSkipHeaderRecord(true).get();
+    private static final CSVFormat READ_FORMAT = CSVFormat.RFC4180.builder().setHeader().get();
     private final ObjectMapper objectMapper;
 
     public CsvDataStorage(ObjectMapper objectMapper) {
